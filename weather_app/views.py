@@ -44,3 +44,8 @@ def city_autocomplete(request):
             print(f"Error fetching suggestions: {e}")
 
     return JsonResponse([], safe=False)
+
+def delete_city(request, city_id):
+    city = get_object_or_404(City, pk=city_id)
+    city.delete()
+    return HttpResponseRedirect(reverse('index'))
