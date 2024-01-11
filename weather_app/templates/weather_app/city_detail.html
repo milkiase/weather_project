@@ -1,0 +1,10 @@
+<!-- weather_app/templates/weather_app/city_detail.html -->
+{% extends 'weather_app/base.html' %}
+
+{% block content %}
+  <div class="container mt-5">
+    <h2>Weather Details for {{ city }}</h2>
+    <p>{{ weather_details }}</p>
+    <a href="{% url 'index' %}" class="btn btn-primary">Back to Cities</a>
+  </div>
+{% endblock %}
