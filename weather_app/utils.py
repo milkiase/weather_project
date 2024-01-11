@@ -10,7 +10,7 @@ def get_weather_data(city_name):
     try:
         response = requests.get(url)
         data = response.json()
-        temperature = data['main']['temp']
+        temperature = round((data['main']['temp'] - 273.15), 2)
         description = data['weather'][0]['description']
         city = City(name=city_name)
         city.save()
