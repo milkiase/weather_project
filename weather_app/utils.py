@@ -12,8 +12,10 @@ def get_weather_data(city_name):
         data = response.json()
         temperature = round((data['main']['temp'] - 273.15), 2)
         description = data['weather'][0]['description']
-        city = City(name=city_name)
-        city.save()
+
+        if not City.objects.filter(name__iexact=city_name).exists():
+            city = City(name=city_name)
+            city.save()
         return f'Temperature in {city_name}: {temperature}°C, {description}'
     except Exception as e:
         return f'Error fetching data for {city_name}: {e}'
