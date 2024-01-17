@@ -6,7 +6,7 @@ import requests
 from django.http import JsonResponse
 from django.db.models import Q
 from .models import City
-from .utils import get_weather_data
+from .utils import get_weather_data, get_weather_forecast
 
 def index(request):
     cities = City.objects.all()
@@ -16,13 +16,17 @@ def index(request):
 def add_city(request):
     if request.method == 'POST':
         city_name = request.POST['city_name'].strip()
-        get_weather_data(city_name)
+        print('adding city', city_name)
+        get_weather_data(city_name, request.user)
     return HttpResponseRedirect(reverse('index'))
 
 def city_detail(request, city_id):
     city = get_object_or_404(City, pk=city_id)
-    weather_details = get_weather_data(city.name)
-    context = {'city': city, 'weather_details': weather_details}
+    weather_details = get_weather_data(city.name, request.user)
+    # context = {'city': city, 'weather_details': weather_details}
+    forecasts = get_weather_forecast(city.name)
+    print('forecasts', forecasts)
+    context = {'city': city, 'weather_details': weather_details, 'forecasts': forecasts}
     return render(request, 'weather_app/city_detail.html', context)
 
 def city_autocomplete(request):
@@ -45,3 +49,4 @@ def delete_city(request, city_id):
     city = get_object_or_404(City, pk=city_id)
     city.delete()
     return HttpResponseRedirect(reverse('index'))
+

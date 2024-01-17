@@ -2,9 +2,57 @@
 {% extends 'weather_app/base.html' %}
 
 {% block content %}
-  <div class="container mt-5">
-    <h2>Weather Details for {{ city }}</h2>
-    <p>{{ weather_details }}</p>
-    <a href="{% url 'index' %}" class="btn btn-primary">Back to Cities</a>
+<div class="container mt-5">
+  <div class=" d-flex flex-row align-items-start justify-content-between">
+    <h2 class="text-center mb-4">Weather Details for {{ city }}</h2>
+    <a href="{% url 'index' %}" class="btn btn-primary ">Back to Cities</a>
   </div>
+  <div class="card mb-4">
+    <div class="card-body">
+      <h3 class="card-title text-center">Current Weather</h3>
+      <div class="text-center">
+        <i class="fas fa-sun fa-4x text-warning mb-3"></i>
+      </div>
+      <p class="card-text text-center">
+        <span class="font-weight-bold">Temperature:</span> {{ weather_details.temperature }}°C
+      </p>
+      <p class="card-text text-center">
+        <span class="font-weight-bold">Description:</span> {{ weather_details.description }}
+      </p>
+      <p class="card-text text-center">
+        <span class="font-weight-bold">Humidity:</span> {{ weather_details.humidity }}%
+      </p>
+      <p class="card-text text-center">
+        <span class="font-weight-bold">Wind Speed:</span> {{ weather_details.wind_speed }} m/s
+      </p>
+      <p class="card-text text-center">
+        <span class="font-weight-bold">Pressure:</span> {{ weather_details.pressure }} hPa
+      </p>
+    </div>
+  </div>
+
+  <h3 class="text-center mb-3">Weather Forecast</h3>
+    <div id="accordion">
+      {% for forecast in forecasts %}
+        <div class="card">
+          <div class="card-header" id="heading{{ forloop.counter }}">
+            <h5 class="mb-0">
+              <button class="btn btn-link" data-toggle="collapse" data-target="#collapse{{ forloop.counter }}" aria-expanded="true" aria-controls="collapse{{ forloop.counter }}">
+                {{ forecast.date }}
+              </button>
+            </h5>
+          </div>
+
+          <div id="collapse{{ forloop.counter }}" class="collapse {% if forloop.first %}show{% endif %}" aria-labelledby="heading{{ forloop.counter }}" data-parent="#accordion">
+            <div class="card-body">
+              <p>Temperature: {{ forecast.temperature }}°C</p>
+              <p>Humidity: {{ forecast.humidity }}%</p>
+              <p>Weather: {{ forecast.description }}</p>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+    </div>
+
+
 {% endblock %}
