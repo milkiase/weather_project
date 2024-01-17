@@ -5,24 +5,7 @@ from .models import City
 
 api_key = '11791edf82232148a9ce38dd62cd0dea'
 
-# def get_weather_data(city_name):
-#     # Replace 'YOUR_API_KEY' with your actual OpenWeatherMap API key
-#     api_key = '11791edf82232148a9ce38dd62cd0dea'
-#     url = f'http://api.openweathermap.org/data/2.5/weather?q={city_name}&appid={api_key}'
-    
-#     try:
-#         response = requests.get(url)
-#         data = response.json()
-#         temperature = round((data['main']['temp'] - 273.15), 2)
-#         description = data['weather'][0]['description']
 
-#         if not City.objects.filter(name__iexact=city_name).exists():
-#             user = User.objects.all()[0]
-#             city = City(name=city_name, user=user)
-#             city.save()
-#         return f'Temperature in {city_name}: {temperature}°C, {description}'
-#     except Exception as e:
-#         return f'Error fetching data for {city_name}: {e}'
 
 def get_weather_data(city_name, user=None):
     url = f'http://api.openweathermap.org/data/2.5/weather?q={city_name}&appid={api_key}'
