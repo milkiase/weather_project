@@ -46,7 +46,8 @@ def city_autocomplete(request):
     return JsonResponse([], safe=False)
 
 def delete_city(request, city_id):
-    city = get_object_or_404(City, pk=city_id)
-    city.delete()
+    if request.user:
+        city = get_object_or_404(City, pk=city_id)
+        city.delete()
     return HttpResponseRedirect(reverse('index'))
 
